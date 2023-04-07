@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Search Recipes
+{% endblock %}
+
+{% block main %}
+  <div class="search-bar">
+    <div class="search-middle">
+      <form action="/search" method="post">
+        <input autofocus class="search-input" type="text" name="search" placeholder="Dish or Ingredient" style="display: inline;" required>
+        <button class="btn" type="submit" style="background: transparent; padding-top: 5px;">
+          <i class="bi bi-search" style="font-size: 20px;"></i>
+        </button>
+      </form>
+    </div>
+    <div class="search-right">
+      <form action="/search" method="get" id="sort-form">
+        <label for="sort_by">Sort by:</label>
+        <select id="sort_by" name="sort_by" style="border-radius: 10px;">
+          <option selected="selected" disabled>Choose</option>
+          <option value="latest">Latest</option>
+          <option value="name_asc">Name Asc</option>
+          <option value="name_desc">Name Desc</option>
+        </select>
+      </form>
+    </div>
+  </div>
+  {% for recipe in recipes %}
+  <div class="container">
+    <div class="recipe-by">
+      <tr>
+        <td><i class="bi bi-journal-text"></i> By: {{ recipe.username }}</td>
+      </tr>
+      <button name="favorite" type="submit" class="btn btn-danger bi bi-heart-fill"> Add</button>
+    </div>
+    <table class="table table-borderless" style="cursor: pointer;" onclick="toggleTable(this)">
+      <tr>
+        <th><img src="{{ recipe.photo }}" class="recipe-photo"></th>
+        <th class="w-75" style="font-size: 30px; padding: 100px;">{{ recipe.recipe_name }}</th>
+      </tr>
+    </table>
+    <table class="table table-borderless" style="display: none">
+      <tr>
+        <th class="w-25">Ingredients</th>
+        <th>Instructions</th>
+      </tr>
+      <tr>
+        <td><pre style="line-height: 2;">{{ recipe.ingredients }}</pre></td>
+        <td><pre style="white-space: pre-wrap;">{{ recipe.instructions }}</pre></td>
+      </tr>
+    </table>
+  </div>
+  {% endfor %}
+  <script>
+    const form = document.getElementById("sort-form");
+    const select = document.getElementById("sort_by");
+
+    select.addEventListener("change", () => {
+      form.submit();
+    });
+
+    function toggleTable(table) {
+      const ingredientsTable = table.nextElementSibling;
+      ingredientsTable.style.display = ingredientsTable.style.display === "none" ? "table" : "none";
+    }
+  </script>
+{% endblock %}

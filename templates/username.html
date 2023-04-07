@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Change Username
+{% endblock %}
+
+{% block main %}
+  <div class="container">
+    <form action="/username" method="post">
+      <fieldset>
+        <legend>Change Username</legend>
+        <div class="mb-3">
+          <input autocomplete="off" class="form-control mx-auto w-auto" type="text" placeholder="New Username" name="username" required>
+        </div>
+        <div class="mb-3">
+          <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+        <a href="/settings" class="btn btn-danger">Back</a>
+      </fieldset>
+    </form>
+  </div>
+{% endblock %}

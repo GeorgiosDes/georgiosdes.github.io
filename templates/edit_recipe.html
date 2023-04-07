@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Edit Recipe
+{% endblock %}
+
+{% block main %}
+  {% for field in recipe %}
+    {% if session["user_id"] == field.creator_id %}
+      <div class="container">
+        <form action="/edit_recipe/{{ field.id }}" method="post" enctype="multipart/form-data">
+          <fieldset>
+            <legend>Edit recipe</legend>
+            <div class="mb-3">
+              <label for="recipe_name">Recipe Name</label>
+              <input type="text" class="form-control mx-auto w-auto" id="edit-name" name="edit-name" value="{{ field.recipe_name }}" required>
+            </div>
+            <div class="mb-3">
+              <label for="ingredients">Ingredients</label>
+              <textarea class="form-control mx-auto w-auto" id="edit-ingredients" name="edit-ingredients" required rows="10" cols="35" value="{{ field.ingredients }}">{{ field.ingredients }}</textarea>
+            </div>
+            <div class="mb-3">
+              <label for="instructions">Instructions</label>
+              <textarea class="form-control mx-auto w-auto" id="edit-instructions" name="edit-instructions" required rows="15" cols="90" value="{{ field.instructions }}">{{ field.instructions }}</textarea>
+            </div>
+            <div class="mb-3">
+              <input style="border-radius: 5px;" type="file" name="edit-filename">
+            </div>
+            <button type="submit" class="btn btn-success">Save Changes</button>
+          </form>
+        </fieldset>
+      </div>
+    {% else %}
+      <div class="container">
+        <h1>TI KANEIS EDW PANAGIWTH?????</h1>
+        <i class="bi bi-emoji-wink-fill" style="font-size: 100px"></i>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

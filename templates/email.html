@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Change Email
+{% endblock %}
+
+{% block main %}
+  <div class="container">
+    <form action="/email" method="post">
+      <fieldset>
+        <legend>Change Email</legend>
+        <div class="mb-3">
+          <input class="form-control mx-auto w-auto"  type="email" placeholder="New Email" name="newEmail" required>
+        </div>
+        <div class="mb-3">
+          <input class="form-control mx-auto w-auto"  type="email" placeholder="Confirm Email" name="confEmail" required>
+        </div>
+        <div class="mb-3">
+          <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+        <a href="/settings" class="btn btn-danger">Back</a>
+      </fieldset>
+    </form>
+  </div>
+{% endblock %}

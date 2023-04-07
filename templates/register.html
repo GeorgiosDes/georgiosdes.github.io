@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Register
+{% endblock %}
+
+{% block main %}
+  <div class="container">
+    <form action="/register" method="post">
+      <fieldset>
+        <legend>Register</legend>
+        <div class="mb-3">
+          <label for="username">Username</label>
+          <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text" required>
+        </div>
+        <div class="mb-3">
+          <label for="email">Email</label>
+          <input autocomplete="off" class="form-control mx-auto w-auto" name="email" placeholder="Email" type="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="password">Password</label>
+          <input autocomplete="off" class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password" required>
+        </div>
+        <div class="mb-3">
+          <label for="confirmation">Confirm password</label>
+          <input autocomplete="off" class="form-control mx-auto w-auto" name="confirmation" placeholder="Confirm password" type="password" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+      </fieldset>
+    </form>
+  </div>
+{% endblock %}

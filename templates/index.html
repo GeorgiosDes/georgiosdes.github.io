@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Home
+{% endblock %}
+
+{% block main %}
+  <div class="home-container">
+    <div>
+      <h1>Welcome to Demi's!</h1>
+    </div>
+    <br>
+    <div class="home-div">
+      <div class="home-text">
+        <h2><a href="/search" class="btn btn-primary" style="font-size: 30px;">Find</a> recipes fast and easy</h2>
+        <h2>OR</h2>
+        <h2><a href="/create" class="btn btn-primary" style="font-size: 30px;">Share</a> your own recipes!</h2>
+      </div>
+      <div class="home-photo">
+        <img src="./static/images/home.jpg">
+      </div>
+    </div>
+  </div>
+{% endblock %}

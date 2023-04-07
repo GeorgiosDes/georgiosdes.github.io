@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  My Recipes
+{% endblock %}
+
+{% block main %}
+  {% for recipe in recipes %}
+  <div class="container">
+    <div class="edit">
+      <tr>
+        <td><a href="/edit_recipe/{{ recipe.id }}" class="btn btn-secondary bi bi-gear-fill"> Edit</a></td>
+      <tr>
+    </div>
+    <table class="table table-borderless" style="cursor: pointer;" onclick="toggleTable(this)">
+      <tr>
+        <th><img src="{{ recipe.photo }}" class="recipe-photo"></th>
+        <th class="w-75" style="font-size: 30px; padding: 100px;">{{ recipe.recipe_name }}</th>
+      </tr>
+    </table>
+    <table class="table table-borderless" style="display:none">
+      <tr>
+        <th class="w-25">Ingredients</th>
+        <th>Instructions</th>
+      </tr>
+      <tr>
+        <td><pre style="line-height: 2;">{{ recipe.ingredients }}</pre></td>
+        <td><pre style="white-space: pre-wrap;">{{ recipe.instructions }}</pre></td>
+      </tr>
+    </table>
+  </div>
+
+  <script>
+    function toggleTable(table) {
+      const ingredientsTable = table.nextElementSibling;
+      ingredientsTable.style.display = ingredientsTable.style.display === "none" ? "table" : "none";
+    }
+  </script>
+  {% endfor %}
+{% endblock %}
