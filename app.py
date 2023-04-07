@@ -16,7 +16,7 @@ app.config["ALLOWED_EXTENSIONS"] = {"jpg", "jpeg", "png"}
 
 Session(app)
 
-db = SQL("sqlite:///recipes.db")
+db = SQL("db.cozntgvceexyqiyectjs.supabase.co")
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in app.config["ALLOWED_EXTENSIONS"]
