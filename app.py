@@ -16,7 +16,7 @@ app.config["ALLOWED_EXTENSIONS"] = {"jpg", "jpeg", "png"}
 
 Session(app)
 
-db = SQL("db.cozntgvceexyqiyectjs.supabase.co")
+db = SQL("user=postgres password=[YOUR-PASSWORD] host=db.cozntgvceexyqiyectjs.supabase.co port=5432 database=postgres")
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in app.config["ALLOWED_EXTENSIONS"]
