@@ -6,6 +6,7 @@ from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 from helpers import login_required
+from flask_paginate import Pagination, get_page_parameter
 
 app = Flask(__name__)
 
@@ -16,13 +17,13 @@ app.config["ALLOWED_EXTENSIONS"] = {"jpg", "jpeg", "png"}
 
 Session(app)
 
-db = SQL("user=postgres password=[YOUR-PASSWORD] host=db.cozntgvceexyqiyectjs.supabase.co port=5432 database=postgres")
+db = SQL("sqlite:///recipes.db")
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in app.config["ALLOWED_EXTENSIONS"]
 
 
-@app.route("/", methods=["GET"])
+@app.route("/", methods=["GET", "POST"])
 def index():
     return render_template("index.html")
 
@@ -34,7 +35,7 @@ def login():
         user = db.execute("SELECT * FROM users WHERE email = ?", request.form.get("email"))
 
         if len(user) != 1 or not check_password_hash(user[0]["hash"], request.form.get("password")):
-            flash("Invalid username and/or password")
+            flash("Invalid username and/or password.")
             return redirect("/login")
 
         session["user_id"] = user[0]["id"]
@@ -55,17 +56,17 @@ def logout():
 def register():
     if request.method == "POST":
         if (request.form.get("password") != request.form.get("confirmation")):
-            flash("Passwords do not match")
+            flash("Passwords do not match.")
             return redirect("/register")
 
         email = db.execute("SELECT * FROM users WHERE email = ?", request.form.get("email"))
         if len(email) == 1:
-            flash("Email already in use")
+            flash("Email already in use.")
             return redirect("/register")
 
         username = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
         if len(username) == 1:
-            flash("Username is taken")
+            flash("Username is taken.")
             return redirect("/register")
 
         username = request.form.get("username")
@@ -112,32 +113,41 @@ def create():
 def search():
     if request.method == "POST":
         search = request.form.get("search")
+        recipe_id = request.form.get("recipe_id")
 
         if search:
             word = search.split()
             if len(word) == 1:
-                recipes = db.execute("SELECT * FROM recipes JOIN users ON recipes.creator_id = users.id WHERE recipe_name LIKE ? OR ingredients LIKE ?", f"%{search}%", f"%{search}%")
+                recipes = db.execute("SELECT * FROM recipes WHERE recipe_name LIKE ? OR ingredients LIKE ?", f"%{word[0]}%", f"%{word[0]}%")
                 return render_template("search.html", recipes=recipes)
 
             elif len(word) == 2:
-                recipes = db.execute("SELECT * FROM recipes JOIN users ON recipes.creator_id = users.id WHERE (recipe_name LIKE ? AND recipe_name LIKE ?)", f"%{search[0]}%", f"%{search[1]}%")
+                recipes = db.execute("SELECT * FROM recipes WHERE (recipe_name LIKE ? AND recipe_name LIKE ?)", f"%{word[0]}%", f"%{word[1]}%")
                 return render_template("search.html", recipes=recipes)
 
+        else:
+            db.execute("INSERT INTO favorites (user_id, recipe_id) VALUES (?, ?)", session["user_id"], recipe_id)
+            flash("Added to favorites.")
+            return redirect(request.referrer)
+
     else:
+        favorites = []
+        if "user_id" in session:
+            favorites = db.execute("SELECT * FROM favorites WHERE user_id = ?", session["user_id"])
         sort_by = request.args.get("sort_by")
 
         if sort_by == "name_asc":
-            recipes = db.execute("SELECT * FROM recipes JOIN users ON recipes.creator_id = users.id ORDER BY recipe_name ASC")
-            return render_template("search.html", recipes=recipes)
+            recipes = db.execute("SELECT * FROM recipes ORDER BY recipe_name ASC")
+            return render_template("search.html", recipes=recipes, favorites=favorites)
         if sort_by == "name_desc":
-            recipes = db.execute("SELECT * FROM recipes JOIN users ON recipes.creator_id = users.id ORDER BY recipe_name DESC")
-            return render_template("search.html", recipes=recipes)
+            recipes = db.execute("SELECT * FROM recipes ORDER BY recipe_name DESC")
+            return render_template("search.html", recipes=recipes, favorites=favorites)
         if sort_by == "latest":
-            recipes = db.execute("SELECT * FROM recipes JOIN users ON recipes.creator_id = users.id ORDER BY id DESC LIMIT 5")
-            return render_template("search.html", recipes=recipes)
+            recipes = db.execute("SELECT * FROM recipes ORDER BY id DESC LIMIT 5")
+            return render_template("search.html", recipes=recipes, favorites=favorites)
         else:
-            recipes = db.execute("SELECT *, users.username FROM recipes JOIN users ON recipes.creator_id = users.id ORDER BY id DESC LIMIT 5;")
-            return render_template("search.html", recipes=recipes)
+            recipes = db.execute("SELECT * FROM recipes ORDER BY id DESC")
+            return render_template("search.html", recipes=recipes, favorites=favorites)
 
 
 @app.route("/settings", methods=["GET"])
@@ -151,18 +161,18 @@ def settings():
 def password():
     if request.method == "POST":
         if (request.form.get("newPass") != request.form.get("confPass")):
-            flash("Passwords don't match")
-            return redirect("/settings")
+            flash("Passwords don't match.")
+            return redirect("/password")
 
         password = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])[0]["hash"]
         new_password = generate_password_hash(request.form.get("newPass"))
 
         if not check_password_hash(password, request.form.get("currentPass")):
-            flash("Current password is incorrect")
-            return redirect("/settings")
+            flash("Current password is incorrect.")
+            return redirect("/password")
 
         db.execute("UPDATE users SET hash = ? WHERE id = ?", new_password, session["user_id"])
-        flash("Password changed")
+        flash("Password changed.")
         return redirect("/settings")
 
     else:
@@ -175,12 +185,13 @@ def username():
     if request.method == "POST":
         username = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
         if len(username) == 1:
-            flash("Username is taken")
-            return redirect("/settings")
+            flash("Username is taken.")
+            return redirect("/username")
 
         new_username = request.form.get("username")
         db.execute("UPDATE users SET username = ? WHERE id = ?", new_username, session["user_id"])
-        flash("Username changed")
+        flash("Username changed.")
+        session["user_name"] = new_username
         return redirect("/settings")
 
     else:
@@ -192,17 +203,17 @@ def username():
 def email():
     if request.method == "POST":
         if (request.form.get("newEmail") != request.form.get("confEmail")):
-            flash("Emails don't match")
-            return redirect("/settings")
+            flash("Emails don't match.")
+            return redirect("/email")
 
         new_user = db.execute("SELECT * FROM users WHERE email = ?", request.form.get("newEmail"))
         if len(new_user) == 1:
-            flash("Email already in use")
-            return redirect("/settings")
+            flash("Email already in use.")
+            return redirect("/email")
 
         new_email = request.form.get("newEmail")
         db.execute("UPDATE users SET email = ? WHERE id = ?", new_email, session["user_id"])
-        flash("Email changed")
+        flash("Email changed.")
         return redirect("/settings")
 
     else:
@@ -216,7 +227,7 @@ def myrecipes():
     if (recipes):
         return render_template("myrecipes.html", recipes=recipes)
     else:
-        flash("You dont have any recipes")
+        flash("You dont have any recipes.")
         return redirect("/create")
 
 
@@ -243,9 +254,29 @@ def edit_recipe(recipe_id):
             photo_path = old_photo[0]
 
         db.execute("UPDATE recipes SET recipe_name = ?, ingredients = ?, instructions = ? WHERE id = ?", recipe, ingredients, instructions, recipe_id)
-        flash("Changes saved")
+        flash("Changes saved.")
         return redirect("/myrecipes")
 
     else:
         recipe = db.execute("SELECT * FROM recipes WHERE id = ? ORDER BY recipe_name ASC", recipe_id)
         return render_template("edit_recipe.html", recipe=recipe)
+
+
+@app.route("/favorites", methods=["GET", "POST"])
+@login_required
+def favorites():
+    if request.method == "POST":
+        recipe_id = request.form.get("recipe_id")
+        db.execute("DELETE FROM favorites WHERE user_id = ? AND recipe_id = ?", session["user_id"], recipe_id)
+        flash("Removed from favorites. ")
+        return redirect("/favorites")
+
+    else:
+        recipes = db.execute("SELECT * FROM favorites JOIN recipes ON recipes.id = favorites.recipe_id WHERE favorites.user_id = ?", session["user_id"])
+
+        if len(recipes) == 0:
+            flash("Your favorites list is empty.")
+            return redirect("/search")
+
+        else:
+            return render_template("favorites.html", recipes=recipes)
