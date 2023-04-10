@@ -17,5 +17,3 @@ The website is use a recipes.db with tables user (for user credentials), recipes
 What I really regret not implementing is a page system for the recipes, so instead of having a very long list of them I wanted to have 5 per page but proved to be hard for me to implement. I also don't like the fact that the website doesn't scale well with smaller monitors but I think that's something I should've tried to do early on, by the time i realised it was already a month later.
 
 *The reason I have a creator_id in the recipes table is because initially i had the username of the person who created the recipe, appear next to the red heart icon (to add recipe to favorites) with the intention to make it clickable so you could see every recipe this user uploaded but I scrapped that due to the project taking too long to finish already
-
-P.S. Thank you for this course and for your time reading this.
