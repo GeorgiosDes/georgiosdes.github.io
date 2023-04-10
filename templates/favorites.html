@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Favorites
+{% endblock %}
+
+{% block main %}
+  <div class="title-bar">
+    <h4>Favorites</h4>
+  </div>
+  {% for recipe in recipes %}
+    <div class="container-browse">
+      <div class="col-13">
+        <form action="/favorites" method="post" id="remove-favorite-form-{{recipe.id}}">
+          <input type="hidden" id="recipe_id" name="recipe_id" value="{{ recipe.id }}">
+          <button form="remove-favorite-form-{{recipe.id}}" id="remove" type="submit" class="btn btn-secondary bi bi-heart"></button>
+        </form>
+      </div>
+      <div class="d-flex" onclick="toggleTable(this)">
+        <table class="col-md" style="cursor: pointer;">
+          <tr>
+            <th><img src="{{ recipe.photo }}" class="recipe-photo"></th>
+            <th class="w-75" style="font-size: 30px;">{{ recipe.recipe_name }}</th>
+          </tr>
+        </table>
+      </div>
+      <table class="table table-borderless" style="display: none">
+        <tr>
+          <th class="w-25">Ingredients</th>
+          <th>Instructions</th>
+        </tr>
+        <tr>
+          <td><pre style="line-height: 2;">{{ recipe.ingredients }}</pre></td>
+          <td><pre style="white-space: pre-wrap;">{{ recipe.instructions }}</pre></td>
+        </tr>
+      </table>
+    </div>
+  {% endfor %}
+  <script>
+    function toggleTable(element) {
+      const next = element.nextElementSibling;
+      if (next.style.display === "table") {
+        next.style.display = "none";
+      } else {
+        next.style.display = "table";
+      }
+    }
+  </script>
+{% endblock %}

@@ -5,10 +5,12 @@
 {% endblock %}
 
 {% block main %}
+  <div class="title-bar">
+    <h4>Create recipe</h4>
+  </div>
   <div class="container">
     <form action="/create" method="post" enctype="multipart/form-data">
       <fieldset>
-        <legend>Create recipe</legend>
         <div class="mb-3">
           <label for="name">Recipe Name</label>
           <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="name" placeholder="Ceasar's Salad" type="text" required>

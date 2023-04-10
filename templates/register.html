@@ -5,10 +5,12 @@
 {% endblock %}
 
 {% block main %}
+  <div class="title-bar">
+    <h4>Register</h4>
+  </div>
   <div class="container">
     <form action="/register" method="post">
       <fieldset>
-        <legend>Register</legend>
         <div class="mb-3">
           <label for="username">Username</label>
           <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text" required>

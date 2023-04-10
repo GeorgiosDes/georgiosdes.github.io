@@ -8,7 +8,7 @@
   <div class="search-bar">
     <div class="search-middle">
       <form action="/search" method="post">
-        <input autofocus class="search-input" type="text" name="search" placeholder="Dish or Ingredient" style="display: inline;" required>
+        <input autocomplete="off" autofocus class="search-input" type="text" name="search" placeholder="Dish or Ingredient" style="display: inline;" required>
         <button class="btn" type="submit" style="background: transparent; padding-top: 5px;">
           <i class="bi bi-search" style="font-size: 20px;"></i>
         </button>
@@ -27,19 +27,31 @@
     </div>
   </div>
   {% for recipe in recipes %}
-  <div class="container">
-    <div class="recipe-by">
-      <tr>
-        <td><i class="bi bi-journal-text"></i> By: {{ recipe.username }}</td>
-      </tr>
-      <button name="favorite" type="submit" class="btn btn-danger bi bi-heart-fill"> Add</button>
+  <div class="container-browse">
+    {% if session["user_id"] %}
+      {% set favorite_recipe_ids = [] %}
+      {% for favorite in favorites %}
+        {% if favorite.recipe_id %}
+          {% set _ = favorite_recipe_ids.append(favorite.recipe_id) %}
+        {% endif %}
+      {% endfor %}
+      {% if recipe.id not in favorite_recipe_ids %}
+        <div class="col">
+          <form action="/search" method="post" id="add-favorite-form-{{recipe.id}}">
+            <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+            <button form="add-favorite-form-{{recipe.id}}" type="submit" id="favorite" class="btn btn-danger bi bi-heart-fill"></button>
+          </form>
+        </div>
+      {% endif %}
+    {% endif %}
+    <div class="d-flex" onclick="toggleTable(this)">
+      <table class="col-md" style="cursor: pointer;">
+        <tr>
+          <th><img src="{{ recipe.photo }}" class="recipe-photo"></th>
+          <th class="w-75" style="font-size: 30px;">{{ recipe.recipe_name }}</th>
+        </tr>
+      </table>
     </div>
-    <table class="table table-borderless" style="cursor: pointer;" onclick="toggleTable(this)">
-      <tr>
-        <th><img src="{{ recipe.photo }}" class="recipe-photo"></th>
-        <th class="w-75" style="font-size: 30px; padding: 100px;">{{ recipe.recipe_name }}</th>
-      </tr>
-    </table>
     <table class="table table-borderless" style="display: none">
       <tr>
         <th class="w-25">Ingredients</th>
@@ -60,9 +72,13 @@
       form.submit();
     });
 
-    function toggleTable(table) {
-      const ingredientsTable = table.nextElementSibling;
-      ingredientsTable.style.display = ingredientsTable.style.display === "none" ? "table" : "none";
+    function toggleTable(element) {
+      const next = element.nextElementSibling;
+      if (next.style.display === "table") {
+        next.style.display = "none";
+      } else {
+        next.style.display = "table";
+      }
     }
   </script>
 {% endblock %}

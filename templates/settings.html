@@ -5,16 +5,18 @@
 {% endblock %}
 
 {% block main %}
-  <div class="container">
+  <div class="title-bar">
     <h4>Settings</h4>
+  </div>
+  <div class="container-settings">
     <div class="mb-3">
-      <a href="/password" class="btn btn-primary">Change Password</a>
+      <a href="/password" class="btn btn-secondary"><i class="bi bi-lock-fill"></i> Change Password</a>
     </div>
     <div class="mb-3">
-      <a href="/username" class="btn btn-primary">Change Username</a>
+      <a href="/username" class="btn btn-secondary"><i class="bi bi-person-fill"></i> Change Username</a>
     </div>
     <div class="mb-3">
-      <a href="/email" class="btn btn-primary">Change Email</a>
+      <a href="/email" class="btn btn-secondary"><i class="bi bi-envelope-fill"></i> Change Email</a>
     </div>
   </div>
 {% endblock %}

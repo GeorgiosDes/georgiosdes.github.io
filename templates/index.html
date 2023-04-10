@@ -5,19 +5,24 @@
 {% endblock %}
 
 {% block main %}
-  <div class="home-container">
+  <div class="container">
     <div>
-      <h1>Welcome to Demi's!</h1>
+      <h1>Welcome to Demi's Food Recipes!</h1>
     </div>
     <br>
-    <div class="home-div">
-      <div class="home-text">
-        <h2><a href="/search" class="btn btn-primary" style="font-size: 30px;">Find</a> recipes fast and easy</h2>
-        <h2>OR</h2>
-        <h2><a href="/create" class="btn btn-primary" style="font-size: 30px;">Share</a> your own recipes!</h2>
+    <div class="row">
+      <div class="col" style="font-size: 24px; text-align: left; margin: 5rem 0 0 3rem;">
+        <p>
+        <a href="/search" class="btn btn-light" style="font-size: 24px;"><i class="bi bi-search" style="color: #000;"></i> Browse</a> our recipes fast and easy
+        <br>
+        <br>
+        <br>
+        <br>
+        <a href="/create" class="btn btn-primary" style="font-size: 24px;"><i class="bi bi-journal-text"></i> Share</a> your own recipes!
+        </p>
       </div>
-      <div class="home-photo">
-        <img src="./static/images/home.jpg">
+      <div class="col-md-auto">
+        <img src="./static/images/home.avif" style="border-radius: 15px">
       </div>
     </div>
   </div>

@@ -5,10 +5,12 @@
 {% endblock %}
 
 {% block main %}
+  <div class="title-bar">
+    <h4>Login</h4>
+  </div>
   <div class="container">
     <form action="/login" method="post">
       <fieldset>
-        <legend>Login</legend>
         <div class="mb-3">
           <label for="email">Email</label>
           <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="email" placeholder="Email" type="email" required>
@@ -17,6 +19,7 @@
           <label for="password">Password</label>
           <input autocomplete="off" class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password" required>
         </div>
+        <p>Don't have an account? <a href="/register">Register</a></p>
         <button class="btn btn-primary" type="submit">Log In</button>
       </fieldset>
     </form>

@@ -5,19 +5,24 @@
 {% endblock %}
 
 {% block main %}
+  <div class="title-bar">
+    <h4>My Recipes</h4>
+  </div>
   {% for recipe in recipes %}
-  <div class="container">
+  <div class="container-browse">
     <div class="edit">
       <tr>
-        <td><a href="/edit_recipe/{{ recipe.id }}" class="btn btn-secondary bi bi-gear-fill"> Edit</a></td>
+        <td><a href="/edit_recipe/{{ recipe.id }}" id="edit" class="btn btn-secondary bi bi-gear-fill"></a></td>
       <tr>
     </div>
-    <table class="table table-borderless" style="cursor: pointer;" onclick="toggleTable(this)">
-      <tr>
-        <th><img src="{{ recipe.photo }}" class="recipe-photo"></th>
-        <th class="w-75" style="font-size: 30px; padding: 100px;">{{ recipe.recipe_name }}</th>
-      </tr>
-    </table>
+    <div class="d-flex" onclick="toggleTable(this)">
+      <table class="col-md" style="cursor: pointer;">
+        <tr>
+          <th><img src="{{ recipe.photo }}" class="recipe-photo"></th>
+          <th class="w-75" style="font-size: 30px; padding: 100px;">{{ recipe.recipe_name }}</th>
+        </tr>
+      </table>
+    </div>
     <table class="table table-borderless" style="display:none">
       <tr>
         <th class="w-25">Ingredients</th>
