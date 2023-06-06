@@ -1,0 +1,59 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if request.GET.message %}
+        <div style="text-align: center;">
+            <strong><h3 style="color: green">{{ request.GET.message }}</h3></strong>
+        </div>
+    {% endif %}
+    <h2>Active Listings</h2>
+    {% if listings %}
+        {% for listing in listings %}
+            {% if listing.active == True %}
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-1">
+                        <a href="{% url 'listings' listing.id %}">
+                            <img class="thumbnail" src="{{ listing.image }}">
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <h4>{{ listing.title }}</h4>
+                        {% for bid in bids %}
+                            {% if bid.title == listing %}
+                                <h5>Price: ${{ bid.bid }}</h5>
+                            {% endif %}
+                        {% endfor %}
+                        <br>
+                        <h6>{{ listing.description }}</h6>
+                        <br>
+                        Created {{ listing.date_created }}
+                    </div>
+                </div>
+                <hr>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% if listings.has_other_pages %}
+        <div class="d-flex align-items-center justify-content-center">
+            <ul class="pagination" style="border: 1px solid gray;">
+            {% if listings.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ listings.previous_page_number }}">< Previous</a></li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link"><</a></li>
+            {% endif %}
+            {% for i in listings.paginator.page_range %}
+                {% if listings.number == i %}
+                  <li class="page-item"><a class="page-link">{{ i }}</a></li> 
+                {% else %}
+                  <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if listings.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ listings.next_page_number }}">Next ></a></li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link">></a></li>
+            {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}
