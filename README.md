@@ -1,2 +1,2 @@
-This is the url for the project: https://projectcommerce.onrender.com/
-Unfortunately I can't make the style.css work so it's on default font and styling
+This is the url for the my Harvard CS50 Web Project 2 (Commerce) Course: 
+https://projectcommerce.onrender.com/
