@@ -21,7 +21,7 @@ class Listing(models.Model):
     description = models.CharField(max_length=500,blank=True)
     image = models.URLField(blank=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, default=1)
-    price = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     date_created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

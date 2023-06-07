@@ -20,12 +20,12 @@
       {% if not watchlist %}
         <form action="{% url 'watchlist_action' listing.id %}" method="post">
           {% csrf_token %}
-          <input class="btn btn-secondary" style="padding: 2px;" type="submit" value="Add to Watchlist">
+          <input class="btn btn-secondary" style="padding: 1px;" type="submit" value="Add to Watchlist">
         </form>
       {% else %}
         <form action="{% url 'watchlist_action' listing.id %}" method="post">
           {% csrf_token %}
-          <input class="btn btn-secondary" style="padding: 2px;" type="submit" value="Remove from Watchlist">
+          <input class="btn btn-secondary" style="padding: 1px;" type="submit" value="Remove from Watchlist">
         </form>
       {% endif %}
     {% endif %}

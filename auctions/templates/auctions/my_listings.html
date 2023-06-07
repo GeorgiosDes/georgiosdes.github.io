@@ -38,7 +38,7 @@
         <hr>
       {% endfor %}
     {% else %}
-      <h6>You don't have any listing <a href="{% url 'create' %}">Create Here</a></h6>
+      <h6>You don't have any listing. Create <a href="{% url 'create' %}">Here</a></h6>
     {% endif %}
     {% if listings.has_other_pages %}
         <div class="d-flex align-items-center justify-content-center">

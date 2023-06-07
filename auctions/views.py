@@ -111,6 +111,7 @@ def register(request):
         return render(request, "auctions/register.html")
 
 
+@login_required(login_url="/login")
 def create(request):
     if request.method == "POST":
         title = request.POST["title"]
@@ -139,7 +140,7 @@ def listings(request, id):
     bid = Bid.objects.filter(title=listing).last()
     bid_counter = Bid.objects.filter(title=listing).count() - 1
     category = listing.category
-    comments = Comment.objects.filter(title=listing)
+    comments = Comment.objects.filter(title=listing).order_by("-date_created")
     watchlist = Watchlist.objects.filter(user=request.user, title=listing) if request.user.is_authenticated else None
     return render(request, "auctions/listings.html", {
         "listing": listing,
@@ -194,7 +195,7 @@ def categories(request):
 
 
 def category(request, id):
-    paginator = Paginator(Listing.objects.filter(category=id), 3)
+    paginator = Paginator(Listing.objects.filter(active=True, category=id), 3)
     page = request.GET.get("page", 1)
     try:
         listings = paginator.page(page)
@@ -208,6 +209,7 @@ def category(request, id):
     })
 
 
+@login_required(login_url="/login")
 def close_bid(request, id):
     if request.method == "POST":
         listing = get_object_or_404(Listing,pk=id)
@@ -216,6 +218,7 @@ def close_bid(request, id):
         return HttpResponseRedirect(reverse("index"))
 
 
+@login_required(login_url="/login")
 def my_listings(request):
     paginator = Paginator(Listing.objects.filter(author=request.user), 3)
     page = request.GET.get("page", 1)
