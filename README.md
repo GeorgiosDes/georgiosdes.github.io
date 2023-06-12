@@ -1,4 +1,4 @@
-# Food Recipes
+# CS50 Final Project - Food Recipes
 #### Video Demo:  <https://www.youtube.com/watch?v=aLRq9LO-Acc>
 #### Description:
 
