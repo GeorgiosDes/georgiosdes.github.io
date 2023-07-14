@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+body {
+  background-color: #2C3539;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+}
+
+#title-div {
+  background-color: #222;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+  text-align: center;
+  padding: 10px 0 0;
+  margin: 10px 0 10px;
+}
+
+#nav-div {
+  display: block;
+}
+
+#navbar {
+  padding: 0;
+}
+
+.navbar a {
+  color: #fff;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.nav-item {
+  margin-top: 5px;
+  transition: all 0.3 ease;
+}
+
+.nav-item:hover {
+  transform: scale(1.2);
+}
+
+.bg-custom {
+  color: #000;
+}
+
+#new-post {
+  margin-top: 15px;
+}
+
+#new-post-text {
+  color: #fff;
+  background-color: #2C3539;
+  border-color: #a9a9a9;
+  border-radius: 5px 0 0 5px;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 100%;
+  resize: none;
+  overflow: hidden;
+  outline: none;
+}
+
+#new-post-text:focus {
+  background-color: #222;
+  resize: none;
+  overflow: hidden;
+  outline: none;
+}
+
+#submit-post {
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+
+.comment {
+  color: #fff;
+  background-color: #2C3539;
+  border-color: #a9a9a9;
+  border-radius: 5px 0 0 5px;
+  box-sizing: border-box;
+  padding: 5px;
+  height: 34px;
+  width: 100%;
+  margin-top: 10px;
+  resize: none;
+  overflow: hidden;
+  outline: none;
+}
+
+.comment:focus {
+  background-color: #222;
+  resize: none;
+  overflow: hidden;
+  outline: none;
+}
+
+.comments,
+.comment-content {
+  color: #a9a9a9;
+}
+
+.comment-user {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.posts-div {
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.posts-div > * {
+  display: block;
+}
+
+.author {
+  margin-bottom: 10px;
+}
+
+.author > * {
+  margin-right: 5px;
+  display: inline;
+}
+
+.edit:hover {
+  text-decoration: none;
+}
+
+.timestamp {
+  color: gray;
+}
+
+.bi-heart {
+  color: #a00;
+  margin-right: 5px;
+}
+
+.bi-heart-fill {
+  color: #a00;
+  margin-right: 5px;
+}
+
+.likes {
+  display: flex;
+  margin: 10px 0 10px;
+}
+
+.likes > span:hover {
+  cursor: pointer;
+}
+
+.profile {
+  color: #fff;
+}
+
+.profile:hover {
+  color: #1569C7;
+  text-decoration: none;
+}
+
+#follow-count {
+  display: none;
+  text-align: left;
+  font-size: 16px;
+  color: #fff;
+  padding: 20px;
+}
+
+#follow-action {
+  display: none;
+}
+
+div[class^="content-div"] {
+  transition: all 0.5s ease;
+}
+
+div[id^="comment"],
+.comment-temp {
+  border-radius: 15px;
+  background-color: #222;
+  padding-bottom: 1px;
+  padding-left: 8px;
+  padding-right: 8px;
+  width: fit-content;
+}
+
+.content-div-active {
+  transform: scale(1.1);
+}
+
+.post-content:disabled {
+  color: #fff;
+  background-color: #2C3539;
+  padding: 0;
+  font-weight: 500;
+  border: 0;
+  resize: none;
+  overflow: hidden;
+  max-height: auto;
+  width: 100%;
+}
+
+.post-content:focus,
+.post-content {
+  color: #fff;
+  background-color: #222;
+  padding: 10px;
+  font-weight: 500;
+  border: 1px solid gray;
+  border-radius: 5px;
+  resize: none;
+  overflow: hidden;
+  outline: none;
+  max-height: auto;
+  width: 100%;
+}
+
+.pagination {
+  margin-top: 10px;
+  border: 1px solid #a9a9a9;
+}
+
+.page-link {
+  color: #fff;
+  background-color: #2C3539;
+  border: 0;
+}
+
+.page-link:hover {
+  color: #2C3539;
+}
+
+.page-item.active .page-link {
+  color: #2C3539;
+  background-color: #fff;
+}
+
+.edited {
+  color: gray;
+}

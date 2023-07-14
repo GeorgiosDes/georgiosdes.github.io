@@ -1,0 +1,56 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="container-fluid" id="title-div">
+        <div class="row">
+            <div class="col"></div>
+            <h4 class="col-2" id="title-view">
+                All Posts
+            </h4>
+            <div class="col"></div>
+        </div>
+        <div id="follow-count">
+            <div class="col">
+                <span id="following"></span>
+                <span style="color: #a9a9a9">Following</span>
+            </div>
+            <div class="col">
+                <span id="followers"></span>
+                <span style="color: #a9a9a9">Followers</span>
+            </div>
+            {% if user.is_authenticated %}
+                <div class="col" id="follow-action">
+                    <a class="btn btn-sm btn-success bi bi-person-plus" type="submit" id="follow" style="padding: 0;"> Follow</a>
+                    <a class="btn btn-sm btn-danger bi bi-person-dash" type="submit" id="unfollow" style="padding: 0;"> Unfollow</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    
+    {% if user.is_authenticated %}
+        <div id="new-post">
+            <form id="new-post-form">
+                <div>
+                    <textarea id="new-post-text" placeholder="New Post" rows="1" oninput="grow(this)"></textarea>
+                </div>
+                <input type="submit" class="btn btn-primary btn-sm" id="submit-post" value="Post" hidden>
+            </form>
+        </div>
+    {% endif %}
+    <div id="posts-view">
+    </div>
+
+    <div id="profile-view">
+    </div>
+
+    <input id="current-user" type="hidden" value="{{ request.user }}">
+    <div class="d-flex align-items-center justify-content-center">
+        <ul class="pagination"></ul>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'network/network.js' %}"></script>
+{% endblock %}
