@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  background-color: #222;
+  background-image: url(background.jpg);
+  background-size: cover;
+}
+
+.navbar, .navbar * {
+  background-color: #000;
+}
+
+.background {
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.game-logos img {
+  width: 124px;
+  height: 52px;
+}
+
+.game-logo img {
+  width: 250px;
+  height: 104px;
+}
+
+.video-div {
+  position: relative;
+  padding-bottom: 75%;
+  height: 0;
+  overflow: hidden;
+}
+
+.news-video, .guides-video {
+  position: relative;
+  padding-bottom: 50%;
+  height: 0;
+  overflow: hidden;
+}
+
+.video-div iframe, .news-video iframe, .guides-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bg-black {
+  background-color: #000;
+}
+
+.bg-sec-content {
+  background-color: #000;
+  white-space: pre-wrap;
+}
+
+.content-image {
+  max-width: 80%;
+  height: auto;
+}
+
+.title-container {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  line-height: 25px;
+}
+
+.navbar.sticky-top.shrink {
+  height: 60px;
+}

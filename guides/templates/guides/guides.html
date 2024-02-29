@@ -1,0 +1,64 @@
+{% extends "guides/layout.html" %}
+{% load static %}
+
+{% block title %}X-Swarm - Guides{% endblock %}
+
+{% block body %}
+    <div class="container mt-4 pt-4 pb-4 background rounded-3 text-white">
+        <div class="mx-auto mb-4 text-center">
+            <h3>Guides</h3>
+        </div>
+        <div class="d-flex flex-wrap align-items-start justify-content-center game-logos">
+            {% for game, guide_set in guides %}
+                {% if guide_set %}
+                    <div class="p-1 mb-4">
+                        <a href="{% url 'sort_guides' sort='latest' game_id=game.id %}">
+                            <img src="{{ game.logo.url }}" class="img-fluid border" id="{{ game.id }}">
+                        </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% for game, guide_set in guides %}
+            {% if guide_set %}
+                <div class="row mt-3 mb-3" id="latest">
+                    <div class="text-center">
+                        <div class="p-1 bg-muted bg-gradient rounded-2">
+                            <h5>Latest {{ game }} Guides</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-5 row-cols-xxl-5 justify-content-center g-2">
+                        {% for guide in guide_set %}
+                            <div class="col">
+                                <div class="bg-black border border-2 border-dark rounded-3 text-center">
+                                    <a href="{% url 'full_guide' guide.id %}" class="text-decoration-none text-white">
+                                        <div class="mt-1 game-logos">
+                                            <img src="{{ guide.game.logo.url }}" class="img-fluid">
+                                        </div>
+                                        <div class="p-3 mt-3 mb-2 title-container">
+                                            <h6 class="title">{{ guide.title }}</h6>
+                                        </div>
+                                    </a>
+                                    <div class="guides-video">
+                                        <iframe class="border-2 border-bottom border-top border-dark" width="100%" height="100%" src="{{ guide.video_link }}" frameborder="0" allowfullscreen></iframe>
+                                    </div>
+                                    <div class="text-secondary mt-1">
+                                        <span>{{ guide.user }}</span>
+                                    </div>
+                                    <div class="text-secondary">
+                                        <span>{{ guide.date_created }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

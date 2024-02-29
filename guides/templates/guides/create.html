@@ -1,0 +1,66 @@
+{% extends "guides/layout.html" %}
+{% load static %}
+
+{% block title %}X-Swarm - Create {{ game }} {{ type.capitalize }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-4 pt-4 pb-4 background rounded-3 text-white">
+        <div class="mx-auto mb-4 text-center">
+            <h3>Create {{ type.capitalize }}</h3>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <form action="{% url 'create' type=type %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group mb-2">
+                        <label for="game_id">Game</label>
+                        <div class="dropdown bg-black">
+                            <select class="form-control" name="game_id" id="game_id" required>
+                                <option value="" disabled selected>Choose a game</option>
+                                {% for game in games %}
+                                    <option value="{{ game.id }}">{{ game.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="video-link">Youtube Link</label>
+                        <input autofocus class="form-control rounded-2" type="text" name="video-link" id="video-link" placeholder="Youtube link" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="title">Title</label>
+                        <input class="form-control rounded-2" type="text" name="title" id="title" maxlength="55" placeholder="Title" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="description">Description</label>
+                        <textarea class="form-control rounded-2" type="text" name="description" id="description" placeholder="Description"></textarea>
+                    </div>
+                    <div class="section-container">
+                        <div class="form-group p-1 mt-3 border-primary border-top border-start border-end rounded-top">
+                            <label for="section0-title">Section Title</label>
+                            <input class="form-control rounded-2" type="text" name="section0-title" id="section0-title" placeholder="Section Title" required>
+                        </div>
+                        <div class="form-group p-1 border-primary border-start border-end">
+                            <label for="section0-content">Section Content</label>
+                            <textarea class="form-control rounded-2" type="text" name="section0-content" id="section0-content" rows="6" placeholder="Section Content" required></textarea>
+                        </div>
+                        <div class="form-group p-1 mb-4 border-primary border-start border-bottom border-end rounded-bottom">
+                            <label for="section0-image">Section Image:</label>
+                            <input type="file" name="section0-image" id="section0-image">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary text-white rounded-2 mb-1" type="button" id="add-section">+Section</button>
+                        <button class="btn btn-danger text-white rounded-2 mb-1 justify-content-end" type="button" id="remove-section" hidden>-Section</button>
+                    </div>
+                    <div class="col">
+                        <input class="btn text-white rounded-2 mb-1" style="background-color: green;" type="submit" value="Create">
+                    </div>
+                </form>
+            </div>
+        </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'guides/create_guide.js' %}"></script>
+{% endblock %}

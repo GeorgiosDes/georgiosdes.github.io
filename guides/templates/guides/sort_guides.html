@@ -1,0 +1,67 @@
+{% extends "guides/layout.html" %}
+{% load static %}
+
+{% block title %}X-Swarm - {{ sort.capitalize }} {{ game.name }} Guides{% endblock %}
+
+{% block body %}
+    <div class="container mt-4 pt-4 pb-4 background rounded-3 text-white">
+        <div class="mx-auto mb-4 text-center game-logo">
+            <div class="p-1">
+                <img src="{{ game.logo.url }}" class="img-fluid" alt="">
+            </div>
+        </div>
+        <div class="mx-auto mb-4 text-center">
+            <div class="bg-muted bg-gradient rounded-2">
+                <div class="dropdown">
+                    <label>Sort By:</label>
+                    <button class="btn btn-outline-secondary text-white btn-md dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      {{ order|safe }}
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'sort_guides' sort='latest' game_id=game.id %}">Latest (Desc)</a></li>
+                        <li><a class="dropdown-item" href="{% url 'sort_guides' sort='oldest' game_id=game.id %}">Oldest (Asc)</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container" id="{{ sort }}">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 row-cols-xxl-5 justify-content-center g-2" id="guide-div">
+                {% for guide in guides %}
+                <div class="col">
+                    <div class="bg-black border border-2 border-dark rounded-3 text-center">
+                        <a href="{% url 'full_guide' guide.id %}" class="text-decoration-none text-white">
+                            <div class="p-3 mt-3 mb-2 title-container">
+                                <h6 class="title">{{ guide.title }}</h6>
+                            </div>
+                        </a>
+                        <div class="guides-video">
+                            <iframe class="border-2 border-bottom border-top border-dark" width="100%" height="100%" src="{{ guide.video_link }}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="text-secondary mt-1">
+                            <span>{{ guide.user }}</span>
+                        </div>
+                        <div class="text-secondary">
+                            <span>{{ guide.date_created }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if more %}
+                <div class="show-more text-center mt-3" id="more-div">
+                    <form id="more">
+                        <input type="hidden" disabled id="type" value="guide">
+                        <input type="hidden" disabled id="game_id" value="{{ game.id }}">
+                        <input type="hidden" disabled id="amount" value="10">
+                        <input type="hidden" disabled id="sort" value="{{ sort }}">
+                        <div id="latest-scroll"></div>
+                        <a class="btn btn-outline-secondary text-white rounded-2 mb-1" id="more-button">SHOW MORE</a>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "guides/layout.html" %}
+{% load static %}
+
+{% block title %}X-Swarm - Change Email{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-4 pt-4 pb-4 background rounded-3 text-white">
+        <div class="mx-auto mb-4 text-center">
+            <h3>Change Email</h3>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form action="{% url 'change_email' %}" method="post">
+                    {% csrf_token %}
+                    {% if message_current_email %}
+                        <div class="mx-auto mb-2" style="color: yellow;">{{ message_current_email }}</div>
+                        <div class="form-group mb-2">
+                            <label for="old-email" style="color: yellow;">Current Email</label>
+                            <input class="form-control rounded-2" autofocus required type="email" name="old-email" placeholder="Current Email">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="email">New Email</label>
+                            <input class="form-control rounded-2" required type="email" name="email" placeholder="New Email" value="{{ email }}">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="confirmation">Confirm Email</label>
+                            <input class="form-control rounded-2" required type="email" name="confirmation" placeholder="Confirm Email" value="{{ confirmation }}">
+                        </div>
+                    {% elif message_new_email %}
+                        <div class="form-group mb-2">
+                            <label for="old-email">Current Email</label>
+                            <input class="form-control rounded-2" required type="email" name="old-email" placeholder="Current Email" value="{{ old_email }}">
+                        </div>
+                        <div class="mx-auto mb-2" style="color: yellow;">{{ message_new_email }}</div>
+                        <div class="form-group mb-2">
+                            <label for="email" style="color: yellow;">New Email</label>
+                            <input class="form-control rounded-2" autofocus required type="email" name="email" placeholder="New Email" value="{{ email }}">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="confirmation" style="color: yellow;">Confirm Email</label>
+                            <input class="form-control rounded-2" required type="email" name="confirmation" placeholder="Confirm Email" value="{{ confirmation }}">
+                        </div>
+                    {% else %}
+                        <div class="form-group mb-2">
+                            <label for="old-email">Current Email</label>
+                            <input class="form-control rounded-2" autofocus required type="email" name="old-email" placeholder="Current Email">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="email">New Email</label>
+                            <input class="form-control rounded-2" required type="email" name="email" placeholder="New Email">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="confirmation">Confirm Email</label>
+                            <input class="form-control rounded-2" required type="email" name="confirmation" placeholder="Confirm Email">
+                        </div>
+                    {% endif %}
+                    <input class="btn text-white rounded-2 mb-1" style="background-color: green;" type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}X-Swarm - Gaming News - Guides{% endblock %}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link href="{% static 'guides/styles.css' %}" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+        <script src="{% static 'guides/main.js' %}"></script>
+        {% block script %}
+        {% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark border-bottom sticky-top">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'index' %}">
+                    <img src="{% static 'images/logo.png' %}" style="height: 90px;" id="swarm-logo">
+                </a>
+                <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header mx-5">
+                        <a class="navbar-brand" href="{% url 'index' %}">
+                            <img src="{% static 'images/logo.png' %}" style="height: 90px;" id="swarm-logo">
+                        </a>
+                        <button type="button" class="btn" data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-x-lg" style="color: #fff;"></i></button>
+                    </div>
+                    <div class="offcanvas-body d-flex flex-column flex-lg-row">
+                        <ul class="navbar-nav justify-content-center align-items-center fs-5 flex-grow-1 pe-3">
+                            <li class="nav-item mx-2">
+                                <a class="nav-link text-white" aria-current="page" href="{% url 'news' %}">News</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <a class="nav-link text-white" href="{% url 'guides' %}">Guides</a>
+                            </li>
+                            <form class="d-flex" action="{% url 'search' %}" method="get">
+                                <input class="form-control me-2 rounded-4" id="search" type="text" name="q" value="{{ request.GET.q }}" placeholder="Search" aria-label="Search" required>
+                                <button class="btn btn-primary text-white rounded-5" type="submit" value="Search">Search</button>
+                            </form>
+                        </ul>
+                        {% if user.is_authenticated %}
+                            <div class="d-flex justify-content-center align-items-center gap-3">
+                                <input type="text" name="{{ user.username }}" value="username" hidden>
+                                <a href="{% url 'profile' %}" class="text-decoration-none text-white">{{ user.username }}</a>
+                                <a href="{% url 'logout' %}" class="btn text-white rounded-5" style="background-color: red;">Logout</a>
+                            </div>
+                        {% else %}
+                            <div class="d-flex justify-content-center align-items-center gap-3">
+                                <a href="{% url 'login' %}" class="text-white text-decoration-none">Login</a>
+                                <a href="{% url 'register' %}" class="btn text-white rounded-5" style="background-color: green;">Register</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div>
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>
